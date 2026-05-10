@@ -2,6 +2,15 @@ import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PRODUCTS_FILE = path.join(__dirname, '..', 'data', 'products.json');
+
+const readDB = (file) => JSON.parse(fs.readFileSync(file, 'utf-8') || '[]');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
@@ -83,33 +92,23 @@ export default async function handler(req, res) {
 
     // PRODUCT ROUTES
     if (path === '/products' && method === 'GET') {
-      const { data: products, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-
-      let filtered = products || [];
+      let products = readDB(PRODUCTS_FILE);
       const { category, minPrice, maxPrice, q } = req.query;
       
-      if (category) filtered = filtered.filter(p => p.category === category);
-      if (minPrice) filtered = filtered.filter(p => p.priceHT * 1.2 >= Number(minPrice));
-      if (maxPrice) filtered = filtered.filter(p => p.priceHT * 1.2 <= Number(maxPrice));
-      if (q) filtered = filtered.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
+      if (category) products = products.filter(p => p.category === category);
+      if (minPrice) products = products.filter(p => p.priceHT * 1.2 >= Number(minPrice));
+      if (maxPrice) products = products.filter(p => p.priceHT * 1.2 <= Number(maxPrice));
+      if (q) products = products.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
 
-      return res.status(200).json(filtered);
+      return res.status(200).json(products);
     }
 
     if (path.startsWith('/products/') && method === 'GET') {
       const id = path.split('/')[2];
-      const { data: product, error } = await supabase
-        .from('products')
-        .select('*')
-        .eq('id', id)
-        .single();
+      const products = readDB(PRODUCTS_FILE);
+      const product = products.find(p => p.id === id);
 
-      if (error || !product) {
+      if (!product) {
         return res.status(404).json({ error: "Produit non trouvé" });
       }
 
