@@ -1,0 +1,145 @@
+[
+  {
+    "id": "ORD-JNG4BNPDC",
+    "userId": "328ddff6-95d1-4366-86ae-e94bb1f01e6f",
+    "items": [
+      {
+        "id": "bf-3",
+        "name": "Baby-foot Compact Enfants",
+        "priceHT": 89,
+        "category": "baby-foot",
+        "quantity": 2,
+        "image": "/images/products/baby-foot-compact-enfants.jpg"
+      }
+    ],
+    "totalTTC": 213.6,
+    "status": "Refusée",
+    "createdAt": "2026-05-10T00:30:51.352Z",
+    "proofUploaded": false
+  },
+  {
+    "id": "ORD-MWEUONRY7",
+    "userId": "328ddff6-95d1-4366-86ae-e94bb1f01e6f",
+    "items": [
+      {
+        "id": "bf-3",
+        "name": "Baby-foot Compact Enfants",
+        "priceHT": 89,
+        "category": "baby-foot",
+        "quantity": 2,
+        "image": "/images/products/baby-foot-compact-enfants.jpg"
+      }
+    ],
+    "totalTTC": 213.6,
+    "status": "Validée",
+    "createdAt": "2026-05-10T00:31:04.059Z",
+    "proofUploaded": false
+  },
+  {
+    "id": "ORD-XUUZ7O3UM",
+    "userId": "328ddff6-95d1-4366-86ae-e94bb1f01e6f",
+    "items": [
+      {
+        "id": "bf-3",
+        "name": "Baby-foot Compact Enfants",
+        "priceHT": 89,
+        "category": "baby-foot",
+        "quantity": 2,
+        "image": "/images/products/baby-foot-compact-enfants.jpg"
+      }
+    ],
+    "totalTTC": 213.6,
+    "status": "Validée",
+    "createdAt": "2026-05-10T00:32:20.360Z",
+    "proofUploaded": false
+  },
+  {
+    "id": "ORD-9HOG8RX2W",
+    "userId": "328ddff6-95d1-4366-86ae-e94bb1f01e6f",
+    "items": [
+      {
+        "id": "bf-1",
+        "name": "Baby-foot Classique 2 joueurs",
+        "priceHT": 149,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-classique-2-joueurs.jpg"
+      },
+      {
+        "id": "bf-2",
+        "name": "Baby-foot Professionnel 4 joueurs",
+        "priceHT": 289,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-professionnel-4-joueurs.jpg"
+      }
+    ],
+    "totalTTC": 525.6,
+    "status": "Validée",
+    "createdAt": "2026-05-10T00:39:00.158Z",
+    "proofUploaded": true,
+    "proofUrl": "/uploads/proofs/proof-ORD-9HOG8RX2W-1778373582328.png"
+  },
+  {
+    "id": "ORD-N90VAOUAO",
+    "userId": "328ddff6-95d1-4366-86ae-e94bb1f01e6f",
+    "items": [
+      {
+        "id": "bf-2",
+        "name": "Baby-foot Professionnel 4 joueurs",
+        "priceHT": 289,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-professionnel-4-joueurs.jpg"
+      },
+      {
+        "id": "bf-3",
+        "name": "Baby-foot Compact Enfants",
+        "priceHT": 89,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-compact-enfants.jpg"
+      },
+      {
+        "id": "tp-3",
+        "name": "Table de Tennis Professionnelle ITTF",
+        "priceHT": 599,
+        "category": "ping-pong",
+        "quantity": 1,
+        "image": "/images/products/table-de-tennis-professionnelle-ittf.jpg"
+      }
+    ],
+    "totalTTC": 1172.3999999999999,
+    "status": "En cours de validation",
+    "createdAt": "2026-05-10T00:44:07.970Z",
+    "proofUploaded": true,
+    "proofUrl": "/uploads/proofs/proof-ORD-N90VAOUAO-1778373856557.png"
+  },
+  {
+    "id": "ORD-EQ8UYTBWN",
+    "userId": "28dfb508-39f6-4113-b2c4-0fd44c2de285",
+    "items": [
+      {
+        "id": "bf-2",
+        "name": "Baby-foot Professionnel 4 joueurs",
+        "priceHT": 289,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-professionnel-4-joueurs.jpg"
+      },
+      {
+        "id": "bf-3",
+        "name": "Baby-foot Compact Enfants",
+        "priceHT": 89,
+        "category": "baby-foot",
+        "quantity": 1,
+        "image": "/images/products/baby-foot-compact-enfants.jpg"
+      }
+    ],
+    "totalTTC": 453.59999999999997,
+    "status": "Livrée",
+    "createdAt": "2026-05-10T00:50:29.417Z",
+    "proofUploaded": true,
+    "proofUrl": "/uploads/proofs/proof-ORD-EQ8UYTBWN-1778374237010.png"
+  }
+]
