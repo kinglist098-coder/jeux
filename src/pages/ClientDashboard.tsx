@@ -68,6 +68,7 @@ export default function ClientDashboard() {
       }
     } catch (err) {
       console.error("Fetch products error:", err);
+      setAllProducts([]);
     }
   };
 
@@ -81,7 +82,7 @@ export default function ClientDashboard() {
     return () => clearInterval(interval);
   }, [token]);
 
-  const favoriteProducts = allProducts.filter(p => wishlist.includes(p.id));
+  const favoriteProducts = allProducts?.filter(p => wishlist?.includes(p.id)) || [];
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -279,12 +280,12 @@ export default function ClientDashboard() {
                             <div className="w-20 h-20 rounded-3xl bg-gray-50 flex items-center justify-center text-brand-dark relative group">
                                <Package size={40} className="opacity-20 group-hover:opacity-40 transition-opacity" />
                                <div className="absolute -top-3 -right-3 w-8 h-8 bg-brand-orange text-white rounded-xl flex items-center justify-center text-[10px] font-black shadow-lg">
-                                 {order.items.length}
+                                 {order.items?.length || 0}
                                </div>
                             </div>
                             <div>
                               <div className="flex items-center gap-3 mb-2">
-                                <h3 className="text-2xl font-black text-brand-dark font-display uppercase tracking-tight">#{order.id.split('-')[1]}</h3>
+                                <h3 className="text-2xl font-black text-brand-dark font-display uppercase tracking-tight">#{order.id?.split('-')[1] || order.id}</h3>
                                 <button 
                                   onClick={() => handleCopyId(order.id)}
                                   className="p-2 bg-gray-50 rounded-xl hover:bg-brand-orange/10 hover:text-brand-orange transition-all text-gray-400"
@@ -294,11 +295,11 @@ export default function ClientDashboard() {
                                 </button>
                               </div>
                               <div className="flex flex-wrap gap-2">
-                                <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border-2 shadow-sm ${getStatusStyle(order.status)}`}>
-                                  {order.status}
+                                <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border-2 shadow-sm ${getStatusStyle(order.status || "En attente de virement")}`}>
+                                  {order.status || "En attente de virement"}
                                 </span>
                                 <span className="bg-gray-50 text-gray-400 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border border-gray-100">
-                                  {new Date(order.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                  {order.createdAt ? new Date(order.createdAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) : "N/A"}
                                 </span>
                               </div>
                             </div>
@@ -306,7 +307,7 @@ export default function ClientDashboard() {
 
                           <div className="flex flex-col items-start lg:items-end w-full lg:w-auto">
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Montant Total TTC</p>
-                            <p className="text-4xl font-black text-brand-orange font-mono tracking-tighter leading-none mb-4">{order.totalTTC.toFixed(2)}€</p>
+                            <p className="text-4xl font-black text-brand-orange font-mono tracking-tighter leading-none mb-4">{(order.totalTTC || order.total_ttc || 0).toFixed(2)}€</p>
                             <button 
                               onClick={() => setExpandedOrder(expandedOrder === order.id ? null : order.id)}
                               className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all px-6 py-3 rounded-2xl border-2 ${
@@ -358,7 +359,7 @@ export default function ClientDashboard() {
                                   <ShoppingBag size={20} className="text-brand-orange" /> Articles commandés
                                 </h4>
                                 <div className="space-y-6">
-                                  {order.items.map((item, idy) => (
+                                  {order.items?.map((item, idy) => (
                                     <div key={idy} className="flex items-center justify-between p-6 bg-white rounded-3xl border border-gray-100 group hover:shadow-2xl hover:border-brand-orange/20 transition-all duration-500 overflow-hidden relative">
                                       <div className="flex items-center gap-6 relative z-10">
                                         <div className="w-24 h-24 bg-gray-50 rounded-2xl flex items-center justify-center text-brand-orange border-2 border-white shadow-xl overflow-hidden group-hover:scale-110 transition-transform duration-500">
@@ -375,12 +376,12 @@ export default function ClientDashboard() {
                                           <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest shadow-sm">
                                             Quantité: <span className="text-brand-dark text-xs">{item.quantity}</span> 
                                             <span className="mx-3 opacity-20">|</span> 
-                                            Prix: <span className="text-brand-dark text-xs">{item.priceHT.toFixed(2)}€</span>
+                                            Prix: <span className="text-brand-dark text-xs">{(item.priceHT || 0).toFixed(2)}€</span>
                                           </p>
                                         </div>
                                       </div>
                                       <div className="text-right relative z-10">
-                                        <p className="text-2xl font-black text-brand-dark font-mono tracking-tighter">{(item.priceHT * item.quantity).toFixed(2)}€</p>
+                                        <p className="text-2xl font-black text-brand-dark font-mono tracking-tighter">{((item.priceHT || 0) * (item.quantity || 1)).toFixed(2)}€</p>
                                         <div className="w-8 h-1 bg-brand-orange ml-auto mt-2 opacity-0 group-hover:opacity-100 group-hover:w-full transition-all duration-500" />
                                       </div>
                                     </div>
@@ -414,12 +415,12 @@ export default function ClientDashboard() {
                                         </div>
                                         <div className="text-right">
                                           <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">TVA (20%)</h5>
-                                          <p className="text-xl font-bold text-brand-dark">{(order.totalTTC - (order.totalTTC / 1.2)).toFixed(2)}€</p>
+                                          <p className="text-xl font-bold text-brand-dark">{((order.totalTTC || order.total_ttc || 0) - ((order.totalTTC || order.total_ttc || 0) / 1.2)).toFixed(2)}€</p>
                                         </div>
                                      </div>
                                      <div className="pt-6 border-t border-brand-orange/10 flex justify-between items-center">
                                         <span className="text-xs font-black uppercase tracking-widest text-[#1B1B2F]">À Régler TTC</span>
-                                        <span className="text-3xl font-black text-brand-orange font-mono">{order.totalTTC.toFixed(2)}€</span>
+                                        <span className="text-3xl font-black text-brand-orange font-mono">{(order.totalTTC || order.total_ttc || 0).toFixed(2)}€</span>
                                      </div>
                                   </div>
                                 </div>
