@@ -69,10 +69,14 @@ export default function Payment() {
         headers: { "Authorization": `Bearer ${token}` },
         body: formData,
       });
+      const data = await res.json();
+      
       if (res.ok) {
         addToast("Preuve de virement envoyée ! Votre commande est en cours de validation.", "success");
         clearCart();
         navigate("/");
+      } else {
+        addToast(data.error || "Une erreur est survenue lors de l'envoi de la preuve", "error");
       }
     } catch (err) {
       addToast("Erreur lors de l'envoi de la preuve", "error");
