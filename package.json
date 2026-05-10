@@ -5,10 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
+    "start": "tsx server.ts",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "deploy:netlify": "netlify deploy --prod --dir=dist",
+    "deploy:netlify:draft": "netlify deploy --dir=dist",
+    "build:deploy": "npm run build && npm run deploy:netlify"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",

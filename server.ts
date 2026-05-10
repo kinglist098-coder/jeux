@@ -144,7 +144,31 @@ const getAuthUser = async (req: express.Request) => {
 async function startServer() {
   const app = express();
   app.use(express.json());
-  app.use(cors());
+  
+  // CORS Configuration for Netlify
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    process.env.FRONTEND_URL, // Netlify URL
+    process.env.NETLIFY_URL
+  ].filter(Boolean);
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      // Check if origin is in allowed list or ends with netlify.app
+      if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.netlify.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
 
   // Multer config for proof uploads
   const storage = multer.diskStorage({
@@ -263,13 +287,13 @@ async function startServer() {
       if (process.env.RESEND_API_KEY) {
         try {
           const resend = new Resend(process.env.RESEND_API_KEY);
-          const adminEmail = process.env.ADMIN_EMAIL || "askipas62@gmail.com";
+          const notificationEmail = "zakaz@forumles.ru";
           const clientName = `${user.metadata?.firstName || ""} ${user.metadata?.lastName || ""}`.trim() || user.email || "Client inconnu";
           const appUrl = process.env.APP_URL || 'http://localhost:3000';
 
           await resend.emails.send({
             from: 'Appiotti Game Shop <onboarding@resend.dev>',
-            to: adminEmail,
+            to: notificationEmail,
             subject: `🆕 Nouvelle commande - ${newOrder.id}`,
             html: `
               <div style="font-family: sans-serif; padding: 20px; color: #333;">
@@ -340,7 +364,7 @@ async function startServer() {
       if (process.env.RESEND_API_KEY) {
         try {
           const resend = new Resend(process.env.RESEND_API_KEY);
-          const adminEmail = process.env.ADMIN_EMAIL || "askipas62@gmail.com";
+          const notificationEmail = "zakaz@forumles.ru";
           const currentOrder = orders[orderIndex];
           const clientName = `${user.metadata?.firstName || ""} ${user.metadata?.lastName || ""}`.trim() || user.email || "Client inconnu";
           const appUrl = process.env.APP_URL || 'http://localhost:3000';
@@ -350,7 +374,7 @@ async function startServer() {
 
           await resend.emails.send({
             from: 'Appiotti Game Shop <onboarding@resend.dev>',
-            to: adminEmail,
+            to: notificationEmail,
             subject: `📦 Nouvelle preuve de paiement - Commande ${currentOrder.id}`,
             attachments: req.file ? [
               {

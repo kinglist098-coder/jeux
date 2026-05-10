@@ -30,12 +30,6 @@ export default function Legal() {
             </ul>
           </section>
 
-          <section className="space-y-6 mb-12 text-gray-500 leading-relaxed">
-            <h2 className="text-2xl font-black text-[#FF6B35]">Hébergement</h2>
-            <p>
-              Ce site est hébergé sur les infrastructures sécurisées de Google Cloud Run, opérées par Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irlande.
-            </p>
-          </section>
 
           <section className="space-y-6 text-gray-500 leading-relaxed">
             <h2 className="text-2xl font-black text-[#FF6B35]">Propriété Intellectuelle</h2>
