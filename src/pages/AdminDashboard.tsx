@@ -60,8 +60,8 @@ export default function AdminDashboard() {
 
   const stats = [
     { label: "Commandes Totales", value: orders.length, icon: <Package />, color: "bg-blue-500" },
-    { label: "En attente", value: orders.filter(o => o.status.includes("attente") || o.status.includes("En cours")).length, icon: <Clock />, color: "bg-orange-500" },
-    { label: "CA Total", value: `${orders.filter(o => o.status === "Validée").reduce((sum, o) => sum + o.totalTTC, 0).toFixed(2)}€`, icon: <TrendingUp />, color: "bg-emerald-500" },
+    { label: "En attente", value: orders.filter(o => o.status?.includes("attente") || o.status?.includes("En cours")).length, icon: <Clock />, color: "bg-orange-500" },
+    { label: "CA Total", value: `${orders.filter(o => o.status === "Validée").reduce((sum, o) => sum + (o.totalTTC || o.total_ttc || 0), 0).toFixed(2)}€`, icon: <TrendingUp />, color: "bg-emerald-500" },
     { label: "Nouveaux Clients", value: "12", icon: <Users />, color: "bg-purple-500" },
   ];
 
@@ -147,11 +147,11 @@ export default function AdminDashboard() {
                  <tbody className="divide-y divide-white/5">
                     {filteredOrders.length > 0 ? filteredOrders.map((order) => (
                       <tr key={order.id} className="hover:bg-white/5 transition-colors group">
-                         <td className="px-10 py-8 font-black font-mono text-brand-green">#{order.id.split('-')[1]}</td>
-                         <td className="px-6 py-8 text-sm text-gray-400">{new Date(order.createdAt).toLocaleDateString("fr-FR")}</td>
-                         <td className="px-6 py-8 font-black text-xl font-mono">{order.totalTTC.toFixed(2)}€</td>
+                         <td className="px-10 py-8 font-black font-mono text-brand-green">#{order.id?.split('-')[1] || order.id}</td>
+                         <td className="px-6 py-8 text-sm text-gray-400">{order.createdAt ? new Date(order.createdAt).toLocaleDateString("fr-FR") : "N/A"}</td>
+                         <td className="px-6 py-8 font-black text-xl font-mono">{(order.totalTTC || order.total_ttc || 0).toFixed(2)}€</td>
                          <td className="px-6 py-8">
-                            {order.proofUploaded ? (
+                            {order.proofUploaded || order.proof_url ? (
                                <button 
                                  onClick={() => setSelectedOrder(order)}
                                  className="flex items-center gap-2 bg-brand-green/10 text-brand-green px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-brand-green/20"
@@ -163,8 +163,8 @@ export default function AdminDashboard() {
                             )}
                          </td>
                          <td className="px-6 py-8">
-                            <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest ${getStatusColor(order.status)}`}>
-                               {order.status}
+                            <span className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest ${getStatusColor(order.status || "En attente de virement")}`}>
+                               {order.status || "En attente de virement"}
                             </span>
                          </td>
                          <td className="px-10 py-8 text-right">
@@ -218,8 +218,8 @@ export default function AdminDashboard() {
                 <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px] mb-8">Commande #{selectedOrder.id}</p>
                 
                 <div className="p-6 bg-brand-cream rounded-[32px] border border-gray-100 mb-8 max-h-[400px] overflow-auto flex items-center justify-center shadow-inner">
-                   {selectedOrder.proofUrl ? (
-                     <img src={selectedOrder.proofUrl} alt="Preuve" className="max-w-full rounded-2xl shadow-2xl" />
+                   {selectedOrder.proofUrl || selectedOrder.proof_url ? (
+                     <img src={selectedOrder.proofUrl || selectedOrder.proof_url} alt="Preuve" className="max-w-full rounded-2xl shadow-2xl" />
                    ) : (
                      <div className="text-gray-300 italic flex flex-col items-center gap-4">
                         <Package size={48} className="opacity-20" />
